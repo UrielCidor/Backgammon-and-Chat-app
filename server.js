@@ -16,10 +16,10 @@ app.use(
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'frontend', 'build')));
 
-// app.use('/api', require('')) routes
+app.use('/api', require('./routes/index'));
 
 app.use('*', (req, res) =>
-    res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'))
+    res.sendFile(path.join(__dirname, 'frontend', 'public', 'index.html'))
 );
 
 const server = require('http').createServer(app);
@@ -43,4 +43,5 @@ mongoose
 	.then(() => console.log('MongoDB successfully connected'))
 	.catch((err) => console.log(err));
 
-server.listen(dbConfig.PORT, () => console.log(`Server up and running on port: ${dbConfig.PORT} !`))
+const PORT = process.env.PORT || 8080;
+server.listen(PORT, () => console.log(`Server up and running on port: ${PORT}!`))

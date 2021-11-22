@@ -59,6 +59,12 @@ const ChatSchema = new Schema(
 	}
 );
 
+// const channelSchema = new Schema(
+//     {
+
+//     }
+// )
+
 const backgammonSchema = new Schema(
 	{
 		players: {
