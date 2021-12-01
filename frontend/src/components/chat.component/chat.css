@@ -1,0 +1,9 @@
+.mainChatPanel{
+    display: flex;
+}
+.online{
+    background-color: green;
+}
+.offline{
+    background-color: gray;
+}

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+
 const userSchema = new Schema(
     {
         username: {
@@ -32,20 +33,18 @@ const userSchema = new Schema(
 			type: Number,
 			default: 0,
 		},
-    },
+	},
     {
         timestamps: true,
     }
 );
 
+
+
 const ChatSchema = new Schema(
 	{
 		users: {
 			type: Array,
-			required: true,
-		},
-		chatStatus: {
-			type: String,
 			required: true,
 		},
         messages: {
@@ -58,12 +57,6 @@ const ChatSchema = new Schema(
 		timestamps: true,
 	}
 );
-
-// const channelSchema = new Schema(
-//     {
-
-//     }
-// )
 
 const backgammonSchema = new Schema(
 	{

@@ -3,6 +3,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
 const {mongoose} = require('./src/database');
+const socketHandler = require('./src/socket')
 
 const app = express();
 
@@ -18,21 +19,27 @@ app.use(express.static(path.join(__dirname, 'frontend', 'build')));
 
 app.use('/api', require('./routes/index'));
 
-app.use('*', (req, res) =>
-    res.sendFile(path.join(__dirname, 'frontend', 'public', 'index.html'))
-);
+// app.use('*', (req, res) =>
+//     res.sendFile(path.join(__dirname, 'frontend', 'public', 'index.html'))
+// );
 
 const server = require('http').createServer(app);
-const io = require('socket.io')(server);
+const io = require('socket.io')(server, {
+	cors: {
+		origin: "http://localhost:3000"
+	}
+});
 
-// var username_soket_pair = {};
-// var all_rooms = {};
+var username_soket_pair = {};
+var all_rooms = {};
 
-// io.on('connection', function(soket){
-//     socketHandler(soket, io, username_soket_pair, all_rooms);
-// });
+io.on('connection', function(soket){
+    socketHandler(soket, io, username_soket_pair, all_rooms);
+	
+});
 
 const dbConfig = require('./config/db.config');
+// const socket = require('./src/socket');
 const mongoUrl = `mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`;
 
 mongoose

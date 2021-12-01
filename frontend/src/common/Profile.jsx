@@ -10,7 +10,6 @@ export default class Profile extends Component {
 
 		this.state = {
 			username: selfUser.username,
-			averageWPM: 0,
 			gamesCompleted: 0,
 			gamesWon: 0,
 		};
@@ -24,7 +23,6 @@ export default class Profile extends Component {
 			);
 			const { user } = await res.json();
 			this.setState({
-				averageWPM: user.averageWPM,
 				gamesCompleted: user.gamesCompleted,
 				gamesWon: user.gamesWon,
 			});
@@ -35,7 +33,7 @@ export default class Profile extends Component {
 
 	render() {
 		const { selfUser } = this.props;
-		const { username, averageWPM, gamesCompleted, gamesWon } = this.state;
+		const { username, gamesCompleted, gamesWon } = this.state;
 
 		if (!selfUser) {
 			return <Navigate to='/' />;
@@ -50,7 +48,6 @@ export default class Profile extends Component {
 						<Card.Header textAlign={'center'}>{username}</Card.Header>
 					</Card.Content>
 					<Card.Content>
-						<Card.Description>Average WPM: {averageWPM}</Card.Description>
 						<Card.Description>
 							Races Completed: {gamesCompleted}
 						</Card.Description>

@@ -9,7 +9,7 @@ export default class Navbar extends Component {
 
     render() {
         const { activeItem } = this.state;
-        const { selfUser, setSelfUser, inChatRoom } = this.props;
+        const { selfUser, setSelfUser } = this.props;
 
         return (
             <div>
@@ -30,29 +30,19 @@ export default class Navbar extends Component {
 
                     <Menu.Menu position='right'>
                         {selfUser ? (
-                            inChatRoom ? (
-                                <Menu.Item
-                                    as={NavLink}
-                                    // exact
-                                    to='/lobby'
-                                    name='lobby'
-                                    active={activeItem === 'lobby'}
-                                    onClick={this.handleItemClick}
-                                >Chat Room</Menu.Item>
-                            ) : (
-                                <Menu.Item
-                                    as={NavLink}
-                                    className='navbar_play'
-                                    // exact
-                                    to='/play'
-                                    name='play'
-                                    active={activeItem === 'play'}
-                                    onClick={this.handleItemClick}
-                                >
-                                    Play Backgammon
-                                </Menu.Item>
-                            )
-                        ) : null}
+                            <Menu.Item
+                                as={NavLink}
+                                className='navbar_play'
+                                // exact
+                                to='/chatLobby'
+                                name='chatLobby'
+                                active={activeItem === 'ChatLobby'}
+                                onClick={this.handleItemClick}
+                            >
+                                Chat and Play Lobby
+                            </Menu.Item>
+                        )
+                            : null}
                         <Menu.Item
                             as={NavLink}
                             // exact
@@ -76,41 +66,41 @@ export default class Navbar extends Component {
                             </Menu.Item>
                         ) : null}
                         {selfUser ? (
-							<Menu.Item
-                            name='logout'
-                            active={activeItem === 'logout'}
-                            onClick={() => {
-                                setSelfUser(null);
-                                localStorage.removeItem('token');
-                            }}
-                        >
-                            Log Out
-                        </Menu.Item>
+                            <Menu.Item
+                                name='logout'
+                                active={activeItem === 'logout'}
+                                onClick={() => {
+                                    setSelfUser(null);
+                                    localStorage.removeItem('token');
+                                }}
+                            >
+                                Log Out
+                            </Menu.Item>
                         ) : (
                             <Fragment>
-								<Menu.Item
-									as={NavLink}
-									// exact
-									to='/register'
-									name='register'
-									active={activeItem === 'register'}
-									onClick={this.handleItemClick}
-									style={{ marginRight: '.5em' }}
-								>
-									Sign Up
-								</Menu.Item>
+                                <Menu.Item
+                                    as={NavLink}
+                                    // exact
+                                    to='/register'
+                                    name='register'
+                                    active={activeItem === 'register'}
+                                    onClick={this.handleItemClick}
+                                    style={{ marginRight: '.5em' }}
+                                >
+                                    Sign Up
+                                </Menu.Item>
 
-								<Menu.Item
-									as={NavLink}
-									// exact
-									to='/login'
-									name='login'
-									active={activeItem === 'login'}
-									onClick={this.handleItemClick}
-								>
-									Log In
-								</Menu.Item>
-							</Fragment>
+                                <Menu.Item
+                                    as={NavLink}
+                                    // exact
+                                    to='/login'
+                                    name='login'
+                                    active={activeItem === 'login'}
+                                    onClick={this.handleItemClick}
+                                >
+                                    Log In
+                                </Menu.Item>
+                            </Fragment>
                         )}
                     </Menu.Menu>
                 </Menu>

@@ -11,22 +11,17 @@ import Register from './common/Register';
 // import Resend from './Resend';
 import About from './common/About';
 
-// import Play from './common/Play';
-// import Lobby from './Lobby';
-// import Type from './Type';
+import ChatLobby from './components/chat.component/ChatLobby';
+import './components/chat.component/chat.css'
+
 
 export default class App extends Component {
-	constructor(props) {
-		super(props);
-		this.updateLobbyStatus = this.updateChatRoomStatus.bind(this);
-	}
 
 	state = {
 		apiPath: 'http://localhost:8080/api',
 
 		selfUser: null,
 		loadingSelf: true,
-		inChatRoom: false,
 	};
 
 	async componentDidMount() {
@@ -64,20 +59,13 @@ export default class App extends Component {
 
 	setSelfUser(selfUser, token) {
 		this.setState({
-			selfUser,
+			selfUser
 		});
 	}
 
-	// https://stackoverflow.com/questions/34734301/passing-data-between-two-sibling-react-js-components
-	// updateLobbyStatus is a function that is passed between the lobby, play, and type components so that there is synchronization of the user's inLobby status
-	updateChatRoomStatus(status) {
-		this.setState({
-			inChatRoom: status,
-		});
-	}
 
 	render() {
-		const { apiPath, selfUser, loadingSelf, inChatRoom } = this.state;
+		const { apiPath, selfUser, loadingSelf } = this.state;
 
 		// If still loading, render a loader on the page
 		if (loadingSelf) {
@@ -92,13 +80,12 @@ export default class App extends Component {
 					<Navbar
 						selfUser={selfUser}
 						setSelfUser={setSelfUser}
-						inChatRoom={inChatRoom}
 					/>
 					{/* <Switch> */}
           <Routes>
 						<Route
 							exact path='/'
-              element={<Landing apiPath={apiPath} selfUser={selfUser}/>}
+							element={<Landing apiPath={apiPath} selfUser={selfUser} />}
 							render={(props) => (
 								<Landing {...props} apiPath={apiPath} selfUser={selfUser} />
 							)}
@@ -144,6 +131,19 @@ export default class App extends Component {
 								/>
 							)}
 						/>
+						<Route
+							exact path='/chatLobby'
+              element={<ChatLobby apiPath={apiPath}
+              selfUser={selfUser}
+              setSelfUser={setSelfUser}/>}
+							render={(props) => (
+								<ChatLobby
+									{...props}
+									apiPath={apiPath}
+									selfUser={selfUser}
+								/>
+							)}
+						/>
 						{/* <Route
 							path='/verify/:id'
               element={<Verify
@@ -172,55 +172,6 @@ export default class App extends Component {
 							)}
 						/> */}
 
-            {/* <Route
-              exact
-              path='/play'
-              element={<Play
-                apiPath={apiPath}
-                selfUser={selfUser}
-                setSelfUser={setSelfUser}
-                inChatRoom={inChatRoom}
-                updateLobbyStatus={this.updateLobbyStatus}/>}
-              render={(props) => (
-                <Play
-                  {...props}
-                  apiPath={apiPath}
-                  selfUser={selfUser}
-                  setSelfUser={setSelfUser}
-                  inChatRoom={inChatRoom}
-                  updateLobbyStatus={this.updateLobbyStatus}
-                />
-              )}
-            /> */}
-						{/*<Route
-							exact
-							path='/lobby'
-							render={(props) => (
-								<Lobby
-									{...props}
-									apiPath={apiPath}
-									selfUser={selfUser}
-									setSelfUser={setSelfUser}
-									inChatRoom={inChatRoom}
-									updateLobbyStatus={this.updateLobbyStatus}
-								/>
-							)}
-						/>
-						<Route
-							exact
-							path='/type'
-							render={(props) => (
-								<Type
-									{...props}
-									apiPath={apiPath}
-									selfUser={selfUser}
-									setSelfUser={setSelfUser}
-									inChatRoom={inChatRoom}
-									updateLobbyStatus={this.updateLobbyStatus}
-								/>
-							)}
-              /> */}
-					{/* </Switch> */}
           </Routes>
 				</BrowserRouter>
 			</Container>

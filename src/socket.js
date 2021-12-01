@@ -1,34 +1,26 @@
 const {User} = require('./database');
 
-module.exports = function (socket, io, username_socket_pair, all_channels){
+let onlines = [];
+
+module.exports = function (socket, io){
     console.log('A user connected: ' + socket.id);
 
-    //when joinning a channel => clicking a contact to message
-    socket.on('join-channel', function (channel_id, username, callback){
-        //Add username/socket ID pair
-        username_socket_pair[socket.id] = username;
+    io.emit('getOnlines', onlines);
 
-        let exist = socket.adapter.channels[channel_id];
-        //if channel_exist join the channel, (get channel messages history) and send messages
-        if(exist){
-            socket.join(channel_id);
-            all_channels[channel_id].user_count++;
+    socket.on('online', (username) => {
+        if(!onlines.includes(username)) onlines.push(username);
+        // console.log(onlines);
+        // io.emit('updateOnlines', onlines);
+    })
 
-            callback('channel exist');
-        }else{
-            callback('channel does not exist', channel_id);
-        }
-    });
+    socket.on('send-message', message =>{
+        console.log(message);
+        io.emit('message', message);
+    })
 
-    //Getting all online contacts
-    socket.on('get_online_users', function(channel_id, callback){
-        let channel = io.sockets.adapter.channels[channel_id];
-
-        if(!channel){
-            callback('Loby error!');
-            return;
-        }
-
-        get 
+    socket.on('offline', (username) => {
+        onlines.splice(username, 1);
+        
+        // console.log(onlines);
     })
 }
