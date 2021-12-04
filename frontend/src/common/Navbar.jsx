@@ -73,6 +73,7 @@ export default class Navbar extends Component {
                                     setSelfUser(null);
                                     localStorage.removeItem('token');
                                 }}
+                                to='/'
                             >
                                 Log Out
                             </Menu.Item>

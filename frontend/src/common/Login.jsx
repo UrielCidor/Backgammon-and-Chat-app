@@ -67,7 +67,7 @@ export default class Login extends Component {
 			setSelfUser(user);
 		} catch (err) {
 			if (err.name !== 'AbortError') {
-				// console.error('Login error: ', err);
+				console.error('Login error: ', err);
 
 				this.setState({
 					loading: false,

@@ -16,7 +16,7 @@ module.exports = (router) => {
                     console.log(err);
                 } else {
                     console.log('Successfully found users');
-                    users.forEach(u => console.log(u.username));
+                    // users.forEach(u => console.log(u.username));
                     res.json({users});
                 }
             });
@@ -33,7 +33,7 @@ module.exports = (router) => {
                     console.log('Error finding chats');
                     console.log(err);
                 } else {
-                    console.log('Successfully found chats');
+                    console.log('Successfully found chat');
                     let chat = chats.find(c => {
                         return c.users.includes(user1) && c.users.includes(user2)
                     });
@@ -41,6 +41,11 @@ module.exports = (router) => {
                     res.json({chat});
                 }
             })
+    });
+
+    router.post('/postMessage', async (req, res)=>{
+        //find chat-channel and add message or create new chat-channel:
+        // const {}
     })
     
 };

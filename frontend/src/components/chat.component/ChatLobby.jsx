@@ -75,11 +75,14 @@ export default class ChatLobby extends Component {
 
     handleSendMessage = (channel, text) => {
         socket.emit("send-message", {channel, text, sender: this.state.username, timeId: Date.now()});
+        //update chat messages after sending mesage.
+        this.loadChannelChat(this.state.username, channel.username);
+        this.setState({channel});
     }
 
 
     configureSocket = () => {
-        const {username, channelChat} = this.state;
+        const {username} = this.state;
 
         socket.on('getOnlines', (onlines) => {
             console.log(onlines);
@@ -88,15 +91,12 @@ export default class ChatLobby extends Component {
         });
         socket.emit('online', username);
 
-        socket.on('message', message => {
-            console.log(channelChat);
-            if(channelChat !== null){
-            let incomingMsg = {id:channelChat.length+1, message:message.text, sender:message.sender};
-                let tmpChat = [...channelChat];
-                tmpChat.push(incomingMsg);
-                console.log(tmpChat);
-                this.setState({ channelChat: tmpChat })
-            }
+        //update chat messages when user send message to this chat
+        socket.on('message', chat => {
+            console.log("message recieved to this chat: ", chat);
+            if(chat.users.includes(username) && chat.users.includes(this.state.channel)){
+                this.loadChannelChat(username, this.state.channel);
+            };
         });
     }
 
@@ -118,8 +118,6 @@ export default class ChatLobby extends Component {
     render() {
 
         const { contacts, username, selfUser, channel, onlines, channelChat } = this.state;
-        // console.log(channel);
-        // console.log(channelChat);
 
         let contactsList = 'there are no contacts yet.';
 

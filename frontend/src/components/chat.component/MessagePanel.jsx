@@ -22,11 +22,11 @@ export default class MessagePanel extends Component {
         const { selfUser, contact, messages } = this.props;
 
         let messageList;
-        console.log(messages);
+        console.log("messages in panel: ", messages);
         if (messages) {
             messages.forEach(m => {
                 messageList = messages.map(msg =>
-                    <li key={msg.id}>{msg.message}</li>
+                    <li key={msg.timeId}>{msg.sender}: {msg.text}</li>
                 )
             })
         } else{

@@ -9,7 +9,7 @@ const crypto = require('crypto');
 
 // const secret = "UrielSecretBackgammon";
 
-const { User, AccountToken } = require('../src/database');
+const { User, AccountToken, Chat } = require('../src/database');
 
 module.exports = (router) => {
 	router.post(
@@ -56,7 +56,15 @@ module.exports = (router) => {
 				gamesWon,
 			});
             
-            //******Creat Chat room with each other user******* */
+            // //******Creat Chat room with each other user********/
+			// const users = User.find();
+			// (await users).forEach(u => {
+			// 	if (u.username == username) return;
+			// 	else {
+			// 		const chat = Chat.create({users: [username, u.username]});
+			// 		console.log(`chat created: ${username} - ${u.username}`)
+			// 	};
+			// });
 
 			// Create an account verification token
 			const accountToken = await AccountToken.create({
